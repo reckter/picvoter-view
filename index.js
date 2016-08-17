@@ -1,6 +1,6 @@
 'use strict';
 
-var SERVER_URL = "localhost:8080"
+var SERVER_URL = ""
 var NEW_PICTURE = 10 * 1000;
 
 
@@ -18,7 +18,7 @@ var NEW_PICTURE = 10 * 1000;
             self.downVote = downVote;
             self.keyDown = keyDown;
 
-            var picId;
+            var pic;
 
             var timeout;
 
@@ -43,26 +43,26 @@ var NEW_PICTURE = 10 * 1000;
             }
 
             function getPicUrl() {
-                return "./test.jpg"
-                return SERVER_URL + "/pics/" + picId  + ".jpg";
+                return SERVER_URL + "/pics/" + pic.fileName;
             }
 
             function loadNewPicture() {
-                $http.get(SERVER_URL + "/pic").then(function(data) {
-                    picId = data.response.id;
+                $http.get(SERVER_URL + "/newpic").then(function(data) {
+                    pic = data.response;
                 })
                 resetTimeout()
             }
 
             function upVote() {
-                $http.post(SERVER_URL + "/votes/" + picId, {"type": "UP"}).then(function() {
+                $http.post(SERVER_URL + "/" + pic.id + "/votes" , {"type": "UP"}).then(function() {
                     loadNewPicture();
                 })
             }
 
 
             function downVote() {
-                $http.post(SERVER_URL + "/votes/" + picId, {"type": "DOWN"}).then(function() {
+
+                    $http.post(SERVER_URL + "/" + pic.id + "/votes", {"type": "DOWN"}).then(function() {
                     loadNewPicture();
                 })
             }
